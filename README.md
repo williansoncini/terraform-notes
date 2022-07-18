@@ -2,6 +2,11 @@
   - [type](#type)
     - [Tipos básicos](#tipos-básicos)
     - [Tipos complexos](#tipos-complexos)
+      - [list](#list)
+      - [map](#map)
+      - [Objects](#objects)
+      - [Sensitivo](#sensitivo)
+      - [Validation](#validation)
   - [default](#default)
   - [description](#description)
   - [Exemplo de uso](#exemplo-de-uso)
@@ -41,10 +46,11 @@ Tipo da variável
 
 ### Tipos complexos
 
-- list
-  - Aceitará somente uma lista
-  - Podendo passar o tipo da lista
-  - `default = ["80","8080","1234"]`
+#### list
+
+- Aceitará somente uma lista
+- Podendo passar o tipo da lista
+- `default = ["80","8080","1234"]`
 
 Mais exemplos de lista
 
@@ -54,6 +60,109 @@ Mais exemplos de lista
 variable "teste" ={
   type = list(string)
   default = ["lista", "de", "string"]
+}
+```
+
+`Pegando um valor especifico da lista`
+
+> Aqui você pode usar index ou umaa função para pegar a posição desejada
+
+```ruby
+output "teste" ={
+  type = var.lista[0]
+  description = "Somente teste"
+}
+```
+
+`Exemplo com função`
+
+```ruby
+output "teste" ={
+  type = var.lista[length(var.lista) - 1]
+  description = "Somente teste"
+}
+```
+
+#### map
+
+É um dicionário :3
+
+```ruby
+variable "teste" ={
+  type = map(string)
+  default = {
+    "a" = "A",
+    "b" = "B"
+  }
+}
+
+output "print_teste" {
+  value = var.teste
+}
+```
+
+```bash
+{
+  "a" = "A",
+  "b" = "B"
+}
+```
+
+#### Objects
+
+```ruby
+variable "usuarios" ={
+  type = map(object({
+    email = string
+    departamento = string
+  }))
+
+  default = {
+    "teste" : {
+      "email" = "teste@teste.com",
+      "departamento" = "teste"
+    }
+    "teste_2": {
+      "email" = "teste_2@teste.com",
+      "departamento" = "teste"
+    }
+  }
+}
+```
+
+#### Sensitivo
+
+Usado para ocultar valores no output, mas cara, cuidado, esses valoress ainda ficam gravados no state do terraform. Então para realmente ocultar os valores será necessário uma outra abordagem
+
+```ruby
+variable "senha_super_secreta" = {
+  type = string
+  sensitive= true
+}
+
+output "senha_super_secreta" {
+  value = var.senha_suoer_secreta
+  sensitive = true
+}
+```
+
+#### Validation
+
+Utilizado para colocar validações no input das variables. Da para colocar condições que obrigue o valor ser informado da forma correta :)
+
+```ruby
+variable "nome" = {
+  type = string
+  description = "O nome deve conter willian"
+
+  validation {
+    condition = contains(["willain"], var.nome) 
+    error_message = "O valor informado está incoreto!"
+  }
+}
+ 
+output "nome" {
+  value = var.nome
 }
 ```
 
