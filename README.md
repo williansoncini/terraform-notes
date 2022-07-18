@@ -14,6 +14,9 @@
     - [Forma padrão](#forma-padrão)
     - [Com variável de ambiente](#com-variável-de-ambiente)
     - [Com arquivo de variavel - terraform.tfvars](#com-arquivo-de-variavel---terraformtfvars)
+- [Resource](#resource)
+  - [Provider](#provider)
+    - [Local](#local)
 - [Referencias](#referencias)
 
 # variables
@@ -280,6 +283,17 @@ zone = "us-central-1"
 ```
 
 Quando você rodar o comando `terraform apply` ele buscará por esse arquivo automaticamente :)
+
+# Resource
+
+Cada resource contém um tipo único de input, por cota disso é muito importante ir na documentação e checar os tipos validos
+
+## Provider
+
+### Local
+
+
+
 
 # Referencias
 
